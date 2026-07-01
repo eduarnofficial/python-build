@@ -8,7 +8,7 @@ on:
 
 jobs:
   run-python:
-    runs-on: demopython
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
