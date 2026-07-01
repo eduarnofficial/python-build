@@ -1,0 +1,60 @@
+name: Compiler Architecture Lab
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  compiler-demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install GCC and Binutils
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc binutils
+
+      - name: Show GCC Version
+        run: gcc --version
+
+      - name: Preprocessing (gcc -E)
+        run: |
+          gcc -E hello.c -o hello.i
+          echo "Generated hello.i"
+
+      - name: Compilation to Assembly (gcc -S)
+        run: |
+          gcc -S hello.c -o hello.s
+          echo "Generated hello.s"
+
+      - name: Compilation to Object File (gcc -c)
+        run: |
+          gcc -c hello.c -o hello.o
+          echo "Generated hello.o"
+
+      - name: Linking
+        run: |
+          gcc hello.o -o hello
+          echo "Generated executable"
+
+      - name: Execute Program
+        run: ./hello
+
+      - name: Display ELF Information
+        run: readelf -h hello
+
+      - name: Display Symbols
+        run: nm hello
+
+      - name: Display Object Dump
+        run: objdump -d hello
+
+      - name: Display Strings
+        run: strings hello | head -20
+
+      - name: Display Executable Size
+        run: size hello
