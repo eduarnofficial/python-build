@@ -1,0 +1,26 @@
+name: Python Demo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-python:
+    runs-on: demopython
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify Python version
+        run: python --version
+
+      - name: Run Python script
+        run: python hello.py
